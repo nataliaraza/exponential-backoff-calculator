@@ -1,0 +1,17 @@
+{
+  "name": "exponential-backoff-calculator",
+  "version": "0.1.0",
+  "description": "Computes the delay for a given attempt number using a base interval and optional jitter, capped at a maximum delay.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": "./src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {}
+}
