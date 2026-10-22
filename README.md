@@ -55,3 +55,10 @@ This library does one thing: turn an attempt number into a delay. It does not sl
 - **Jitter values are validated.** A custom jitter that returns `NaN`, `Infinity`, or a negative number throws `RangeError`. Non-finite or negative `baseDelay`/`maxDelay` and non-integer or negative `attempt` also throw `RangeError`. This is strict by design: a bad delay silently becoming `NaN` in a `setTimeout` is a worse failure mode than an early throw.
 - **Large exponents are safe.** `attempt` above ~30 would overflow a 32-bit shift, so the implementation falls back to `Math.pow` and relies on `maxDelay` to cap the result. Configure a `maxDelay`; without one, very high attempt numbers yield `Infinity`.
 - **`decorrelatedJitter` here is the stateless approximation**, not the stateful decorrelated-jitter from the AWS blog. The stateful form requires carrying the previous delay across calls, which would make it impure and untestable without injecting a mutable store. The approximation uses a window proportional to the current exponential delay instead.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
